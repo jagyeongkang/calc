@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>공학용 계산기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .calculator {
+            background-color: #fff;
+            box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        .display {
+            background-color: #f0f0f0;
+            text-align: right;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .button {
+            padding: 10px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .button.operator {
+            background-color: #ffa500;
+            color: white;
+        }
+
+        .button.operator:hover {
+            background-color: #e69500;
+        }
+
+        .button.special {
+            background-color: #ff5c5c;
+            color: white;
+        }
+
+        .button.special:hover {
+            background-color: #e04b4b;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="display" id="display" readonly />
+        <div class="buttons">
+            <!-- 공학용 함수 -->
+            <button class="button" onclick="appendFunction('sin')">sin</button>
+            <button class="button" onclick="appendFunction('cos')">cos</button>
+            <button class="button" onclick="appendFunction('tan')">tan</button>
+            <button class="button" onclick="appendFunction('log')">log</button>
+            <button class="button special" onclick="clearDisplay()">C</button>
+
+            <!-- 숫자 및 연산자 -->
+            <button class="button" onclick="appendNumber(7)">7</button>
+            <button class="button" onclick="appendNumber(8)">8</button>
+            <button class="button" onclick="appendNumber(9)">9</button>
+            <button class="button operator" onclick="appendOperator('+')">+</button>
+            <button class="button operator" onclick="appendOperator('-')">-</button>
+
+            <button class="button" onclick="appendNumber(4)">4</button>
+            <button class="button" onclick="appendNumber(5)">5</button>
+            <button class="button" onclick="appendNumber(6)">6</button>
+            <button class="button operator" onclick="appendOperator('*')">*</button>
+            <button class="button operator" onclick="appendOperator('/')">/</button>
+
+            <button class="button" onclick="appendNumber(1)">1</button>
+            <button class="button" onclick="appendNumber(2)">2</button>
+            <button class="button" onclick="appendNumber(3)">3</button>
+            <button class="button operator" onclick="appendOperator('**')">^</button>
+            <button class="button" onclick="calculateResult()">=</button>
+
+            <button class="button" onclick="appendNumber(0)">0</button>
+            <button class="button" onclick="appendOperator('(')">(</button>
+            <button class="button" onclick="appendOperator(')')">)</button>
+            <button class="button operator" onclick="appendOperator('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendNumber(num) {
+            display.value += num;
+        }
+
+        function appendOperator(op) {
+            display.value += ' ' + op + ' ';
+        }
+
+        function appendFunction(func) {
+            display.value += func + '(';
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                const expression = display.value.replace(/sin|cos|tan|log/g, (match) => `Math.${match}`);
+                display.value = eval(expression);
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
